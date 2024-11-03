@@ -52,21 +52,21 @@ bool ESP_Init(ESP_HandleTypeDef* hEsp, UART_HandleTypeDef* hUart, uint16_t Buffe
     memset(hEsp, 0, sizeof(ESP_HandleTypeDef));
     if (ATC_Init(&hEsp->hAtc, hUart, BufferSize, pName) == false)
     {
-    	break;
+      break;
     }
     ATC_Receive(&hEsp->hAtc, NULL, 2000, 1, "ready\r\n");
     if (ATC_SendReceive(&hEsp->hAtc, "ATE0\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-  	if (!ATC_Send(&hEsp->hAtc, "AT+SYSSTORE=%d\r\n", ESP_SEND_TIME_MIN, AutoStore))
-		{
-			break;
-		}
-		if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
+    {
+      break;
+    }
+    if (!ATC_Send(&hEsp->hAtc, "AT+SYSSTORE=%d\r\n", ESP_SEND_TIME_MIN, AutoStore))
+    {
+      break;
+  }
+    if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
     answer = true;
 
   } while (0);
@@ -105,7 +105,7 @@ void ESP_DeInit(ESP_HandleTypeDef* hEsp)
   */
 void ESP_Loop(ESP_HandleTypeDef* hEsp)
 {
-	ATC_Loop(&hEsp->hAtc);
+  ATC_Loop(&hEsp->hAtc);
 }
 
 /***********************************************************************************************************/
@@ -118,7 +118,7 @@ void ESP_Loop(ESP_HandleTypeDef* hEsp)
   */
 inline void ESP_IdleLineCallback(ESP_HandleTypeDef* hEsp, uint16_t Len)
 {
-	ATC_IdleLineCallback(&hEsp->hAtc, Len);
+  ATC_IdleLineCallback(&hEsp->hAtc, Len);
 }
 
 /***********************************************************************************************************/
@@ -131,18 +131,18 @@ inline void ESP_IdleLineCallback(ESP_HandleTypeDef* hEsp, uint16_t Len)
   */
 bool ESP_Check(ESP_HandleTypeDef* hEsp)
 {
-	bool answer = false;
-	do
-	{
-		if (ATC_SendReceive(&hEsp->hAtc, "AT\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
 
-	} while (0);
-
-	return answer;
+  } while (0);
+  
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -155,18 +155,18 @@ bool ESP_Check(ESP_HandleTypeDef* hEsp)
   */
 bool ESP_Restart(ESP_HandleTypeDef* hEsp)
 {
-	bool answer = false;
-	do
-	{
-		if (ATC_SendReceive(&hEsp->hAtc, "AT+RST\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+RST\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -179,23 +179,23 @@ bool ESP_Restart(ESP_HandleTypeDef* hEsp)
   */
 bool ESP_FactoryReset(ESP_HandleTypeDef* hEsp)
 {
-	bool answer = false;
-	do
-	{
-		if (ATC_SendReceive(&hEsp->hAtc, "AT+RESTORE\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		if (ATC_SendReceive(&hEsp->hAtc, "AT+RST\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		ATC_Delay(200);
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+RESTORE\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+RST\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    ATC_Delay(200);
+    answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -239,22 +239,22 @@ bool ESP_GetVer(ESP_HandleTypeDef* hEsp, char* pStr)
   */
 bool ESP_EnterDeepSleep(ESP_HandleTypeDef* hEsp, uint32_t DurationMs)
 {
-	bool answer = false;
-	do
-	{
-		if (!ATC_Send(&hEsp->hAtc, "AT+GSLP=%d\r\n", ESP_SEND_TIME_MIN, DurationMs))
-		{
-			break;
-		}
-		if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (!ATC_Send(&hEsp->hAtc, "AT+GSLP=%d\r\n", ESP_SEND_TIME_MIN, DurationMs))
+  {
+    break;
+  }
+  if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+  {
+    break;
+  }
+  answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -267,22 +267,22 @@ bool ESP_EnterDeepSleep(ESP_HandleTypeDef* hEsp, uint32_t DurationMs)
   */
 bool ESP_SetSleepMode(ESP_HandleTypeDef* hEsp, ESP_SleepModeTypeDef eSleepMode)
 {
-	bool answer = false;
-	do
-	{
-		if (!ATC_Send(&hEsp->hAtc, "AT+SLEEP=%d\r\n", ESP_SEND_TIME_MIN, eSleepMode))
-		{
-			break;
-		}
-		if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (!ATC_Send(&hEsp->hAtc, "AT+SLEEP=%d\r\n", ESP_SEND_TIME_MIN, eSleepMode))
+    {
+      break;
+    }
+    if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -295,33 +295,33 @@ bool ESP_SetSleepMode(ESP_HandleTypeDef* hEsp, ESP_SleepModeTypeDef eSleepMode)
   */
 bool ESP_GetSleepMode(ESP_HandleTypeDef* hEsp, ESP_SleepModeTypeDef* peSleepMode)
 {
-	bool answer = false;
-	char* str;
-	uint32_t val1;
-	do
-	{
-		if (peSleepMode == NULL)
-		{
-			break;
-		}
-		if (ATC_SendReceive(&hEsp->hAtc, "AT+SLEEP?\r\n", ESP_SEND_TIME_MIN, &str, ESP_RESP_TIME_MIN, 1, "+SLEEP:") != 1)
-		{
-			break;
-		}
+  bool answer = false;
+  char* str;
+  uint32_t val1;
+  do
+  {
+    if (peSleepMode == NULL)
+    {
+      break;
+  }
+  if (ATC_SendReceive(&hEsp->hAtc, "AT+SLEEP?\r\n", ESP_SEND_TIME_MIN, &str, ESP_RESP_TIME_MIN, 1, "+SLEEP:") != 1)
+  {
+    break;
+  }
 
-		if (sscanf(str, "\r\n+SLEEP:%ld", &val1) != 1)
-		{
-			break;
-		}
-		if (peSleepMode != NULL)
-		{
-			*peSleepMode = val1;
-		}
-		answer = true;
+  if (sscanf(str, "\r\n+SLEEP:%ld", &val1) != 1)
+  {
+    break;
+  }
+  if (peSleepMode != NULL)
+  {
+    *peSleepMode = val1;
+  }
+  answer = true;
 
-	} while (0);
+} while (0);
 
-	return answer;
+return answer;
 }
 
 /***********************************************************************************************************/
@@ -334,32 +334,32 @@ bool ESP_GetSleepMode(ESP_HandleTypeDef* hEsp, ESP_SleepModeTypeDef* peSleepMode
   */
 bool ESP_GetFreeHeap(ESP_HandleTypeDef* hEsp, uint32_t* pHeap, uint32_t* pMinHeap)
 {
-	bool answer = false;
-	uint32_t val1, val2;
-	char* str;
-	do
-	{
-		if (ATC_SendReceive(&hEsp->hAtc, "AT+SYSRAM?\r\n", ESP_SEND_TIME_MIN, &str, ESP_RESP_TIME_MIN, 1, "+SYSRAM:") != 1)
-		{
-			break;
-		}
-		if (sscanf(str, "+SYSRAM:%ld,%ld\r\n", &val1, &val2) != 2)
-		{
-			break;
-		}
-		if (pHeap != NULL)
-		{
-			*pHeap = val1;
-		}
-		if (pMinHeap != NULL)
-		{
-			*pMinHeap = val2;
-		}
-		answer = true;
+  bool answer = false;
+  uint32_t val1, val2;
+  char* str;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+SYSRAM?\r\n", ESP_SEND_TIME_MIN, &str, ESP_RESP_TIME_MIN, 1, "+SYSRAM:") != 1)
+    {
+      break;
+    }
+    if (sscanf(str, "+SYSRAM:%ld,%ld\r\n", &val1, &val2) != 2)
+    {
+      break;
+    }
+    if (pHeap != NULL)
+    {
+      *pHeap = val1;
+    }
+    if (pMinHeap != NULL)
+    {
+      *pMinHeap = val2;
+    }
+    answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -372,18 +372,18 @@ bool ESP_GetFreeHeap(ESP_HandleTypeDef* hEsp, uint32_t* pHeap, uint32_t* pMinHea
   */
 bool ESP_WifiInit(ESP_HandleTypeDef *hEsp)
 {
-	bool answer = false;
-	do
-	{
-		if (ATC_SendReceive(&hEsp->hAtc, "AT+CWINIT=1\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+CWINIT=1\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -396,18 +396,18 @@ bool ESP_WifiInit(ESP_HandleTypeDef *hEsp)
   */
 bool ESP_WifiDeInit(ESP_HandleTypeDef *hEsp)
 {
-	bool answer = false;
-	do
-	{
-		if (ATC_SendReceive(&hEsp->hAtc, "AT+CWINIT=0\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+CWINIT=0\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -420,22 +420,22 @@ bool ESP_WifiDeInit(ESP_HandleTypeDef *hEsp)
   */
 bool ESP_WifiMode(ESP_HandleTypeDef* hEsp, ESP_WifiModeTypeDef WifiMode, bool StationAutoConnect)
 {
-	bool answer = false;
-	do
-	{
-		if (!ATC_Send(&hEsp->hAtc, "AT+CWMODE=%d,%d\r\n", ESP_SEND_TIME_MIN, WifiMode, StationAutoConnect))
-		{
-			break;
-		}
-		if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
-		{
-			break;
-		}
-		answer = true;
+  bool answer = false;
+  do
+  {
+    if (!ATC_Send(&hEsp->hAtc, "AT+CWMODE=%d,%d\r\n", ESP_SEND_TIME_MIN, WifiMode, StationAutoConnect))
+    {
+      break;
+    }
+    if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }
 
 /***********************************************************************************************************/
@@ -448,45 +448,45 @@ bool ESP_WifiMode(ESP_HandleTypeDef* hEsp, ESP_WifiModeTypeDef WifiMode, bool St
   */
 bool ESP_WifiConnectTo(ESP_HandleTypeDef* hEsp, const char* pSSID, const char* pPass, const char *pMac, uint16_t Timeout, ESP_WifiErrTypeDef *peError)
 {
-	bool answer = false;
-	char str_at[256];
-	char str_timeout[6] = {0};
-	memset(str_at, 0, sizeof(str_at));
-	do
-	{
-		sprintf(str_at, "AT+CWJAP=\"%s\",\"%s\"", pSSID, pPass);
-		if (pMac != NULL)
-		{
-			strcat(str_at, ",\"");
-			strcat(str_at, pMac);
-			strcat(str_at, "\",");
-		}
-		else
-		{
-			strcat(str_at, ",,");
-		}
-		strcat(str_at, ",,,,");
-		sprintf(str_timeout, "%d", Timeout);
-		strcat(str_at, str_timeout);
-		strcat(str_at, "\r\n");
-		int ret = ATC_SendReceive(&hEsp->hAtc, str_at, ESP_SEND_TIME_MIN, NULL, (Timeout * 1000) + 1000, 2, esp_ok, "+CWJAP:1", "+CWJAP:2", "+CWJAP:3", "+CWJAP:4");
-		if (ret == 1)
-		{
-			if (peError != NULL)
-			{
-				*peError = ESP_WIFIERR_NONE;
-			}
-			answer = true;
-		}
-		else
-		{
-			if (peError != NULL)
-			{
-				*peError = ret;
-			}
-		}
+  bool answer = false;
+  char str_at[256];
+  char str_timeout[6] = {0};
+  memset(str_at, 0, sizeof(str_at));
+  do
+  {
+    sprintf(str_at, "AT+CWJAP=\"%s\",\"%s\"", pSSID, pPass);
+    if (pMac != NULL)
+    {
+      strcat(str_at, ",\"");
+      strcat(str_at, pMac);
+      strcat(str_at, "\",");
+    }
+    else
+    {
+      strcat(str_at, ",,");
+    }
+    strcat(str_at, ",,,,");
+    sprintf(str_timeout, "%d", Timeout);
+    strcat(str_at, str_timeout);
+    strcat(str_at, "\r\n");
+    int ret = ATC_SendReceive(&hEsp->hAtc, str_at, ESP_SEND_TIME_MIN, NULL, (Timeout * 1000) + 1000, 2, esp_ok, "+CWJAP:1", "+CWJAP:2", "+CWJAP:3", "+CWJAP:4");
+    if (ret == 1)
+    {
+      if (peError != NULL)
+      {
+        *peError = ESP_WIFIERR_NONE;
+      }
+      answer = true;
+    }
+    else
+    {
+      if (peError != NULL)
+      {
+        *peError = ret;
+      }
+    }
 
-	} while (0);
+  } while (0);
 
-	return answer;
+  return answer;
 }

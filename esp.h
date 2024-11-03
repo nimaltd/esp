@@ -35,8 +35,8 @@ extern "C"
 **************    Public Definitions
 ************************************************************************************************************/
 
-#define ESP_SEND_TIME_MIN		100
-#define ESP_RESP_TIME_MIN		100
+#define ESP_SEND_TIME_MIN    100
+#define ESP_RESP_TIME_MIN    100
 
 /************************************************************************************************************
 **************    Public struct/enum
@@ -44,35 +44,35 @@ extern "C"
 
 typedef enum
 {
-	ESP_SLEEPMODE_DISABLE      = 0,
-	ESP_SLEEPMODE_MODEM,
-	ESP_SLEEPMODE_LIGTH,
-	ESP_SLEEPMODE_LISTEN
+  ESP_SLEEPMODE_DISABLE         = 0,
+  ESP_SLEEPMODE_MODEM,
+  ESP_SLEEPMODE_LIGTH,
+  ESP_SLEEPMODE_LISTEN
 
 } ESP_SleepModeTypeDef;
 
 typedef enum
 {
-	ESP_WIFIMODE_DISABLE       = 0,
-	ESP_WIFIMODE_STATION,
-	ESP_WIFIMODE_SOFTAP,
-	ESP_WIFIMODE_SOFTAP_STATION
+  ESP_WIFIMODE_DISABLE          = 0,
+  ESP_WIFIMODE_STATION,
+  ESP_WIFIMODE_SOFTAP,
+  ESP_WIFIMODE_SOFTAP_STATION
 
 } ESP_WifiModeTypeDef;
 
 typedef enum
 {
-	ESP_WIFIERR_NONE           = 0,
-	ESP_WIFIERR_TIMEOUT        = 1,
-	ESP_WIFIERR_PASS           = 2,
-	ESP_WIFIERR_NOT_FOUND      = 3,
-	ESP_WIFIERR_FAILED         = 4
+  ESP_WIFIERR_NONE              = 0,
+  ESP_WIFIERR_TIMEOUT           = 1,
+  ESP_WIFIERR_PASS              = 2,
+  ESP_WIFIERR_NOT_FOUND         = 3,
+  ESP_WIFIERR_FAILED            = 4
 
 } ESP_WifiErrTypeDef;
 
 typedef struct
 {
-	ATC_HandleTypeDef          hAtc;
+  ATC_HandleTypeDef             hAtc;
 
 } ESP_HandleTypeDef;
 
@@ -80,11 +80,11 @@ typedef struct
 **************    Public Functions
 ************************************************************************************************************/
 
-bool 	ESP_Init(ESP_HandleTypeDef* hEsp, UART_HandleTypeDef* hUart, uint16_t BufferSize, const char* pName, bool AutoStore);
-void 	ESP_DeInit(ESP_HandleTypeDef* hEsp);
-void 	ESP_Loop(ESP_HandleTypeDef* hEsp);
+bool   ESP_Init(ESP_HandleTypeDef* hEsp, UART_HandleTypeDef* hUart, uint16_t BufferSize, const char* pName, bool AutoStore);
+void   ESP_DeInit(ESP_HandleTypeDef* hEsp);
+void   ESP_Loop(ESP_HandleTypeDef* hEsp);
 
-void 	ESP_IdleLineCallback(ESP_HandleTypeDef* hEsp, uint16_t Len);
+void   ESP_IdleLineCallback(ESP_HandleTypeDef* hEsp, uint16_t Len);
 
 bool    ESP_Check(ESP_HandleTypeDef* hEsp);
 bool    ESP_Restart(ESP_HandleTypeDef* hEsp);
