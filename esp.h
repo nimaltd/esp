@@ -35,8 +35,8 @@ extern "C"
 **************    Public Definitions
 ************************************************************************************************************/
 
-#define ESP_SEND_TIME_MIN    100
-#define ESP_RESP_TIME_MIN    100
+#define ESP_SEND_TIME_MIN       100
+#define ESP_RESP_TIME_MIN       100
 
 /************************************************************************************************************
 **************    Public struct/enum
@@ -80,11 +80,11 @@ typedef struct
 **************    Public Functions
 ************************************************************************************************************/
 
-bool   ESP_Init(ESP_HandleTypeDef* hEsp, UART_HandleTypeDef* hUart, uint16_t BufferSize, const char* pName, bool AutoStore);
-void   ESP_DeInit(ESP_HandleTypeDef* hEsp);
-void   ESP_Loop(ESP_HandleTypeDef* hEsp);
+bool    ESP_Init(ESP_HandleTypeDef* hEsp, UART_HandleTypeDef* hUart, uint16_t BufferSize, const char* pName, bool AutoStore);
+void    ESP_DeInit(ESP_HandleTypeDef* hEsp);
+void    ESP_Loop(ESP_HandleTypeDef* hEsp);
 
-void   ESP_IdleLineCallback(ESP_HandleTypeDef* hEsp, uint16_t Len);
+void    ESP_IdleLineCallback(ESP_HandleTypeDef* hEsp, uint16_t Len);
 
 bool    ESP_Check(ESP_HandleTypeDef* hEsp);
 bool    ESP_Restart(ESP_HandleTypeDef* hEsp);
