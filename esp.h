@@ -35,8 +35,8 @@ extern "C"
 **************    Public Definitions
 ************************************************************************************************************/
 
-#define ESP_SEND_TIME_MIN       100
-#define ESP_RESP_TIME_MIN       100
+#define ESP_SEND_TIME_MIN    100
+#define ESP_RESP_TIME_MIN    100
 
 /************************************************************************************************************
 **************    Public struct/enum
@@ -70,6 +70,19 @@ typedef enum
 
 } ESP_WifiErrTypeDef;
 
+typedef enum
+{
+  ESP_WIFIENC_OPEN              = 0,
+  ESP_WIFIENC_WEP,
+  ESP_WIFIENC_WPA_PSK,
+  ESP_WIFIENC_WPA2_PSK,
+  ESP_WIFIENC_WPA_WPA2_PSK,
+  ESP_WIFIENC_WPA2_ENTERPRISE,
+  ESP_WIFIENC_WPA3_PSK,
+  ESP_WIFIENC_WPA2_WPA3_PSK
+
+} ESP_WifiEncTypeDef;
+
 typedef struct
 {
   ATC_HandleTypeDef             hAtc;
@@ -98,7 +111,11 @@ bool    ESP_GetFreeHeap(ESP_HandleTypeDef* hEsp, uint32_t* pHeap, uint32_t* pMin
 bool    ESP_WifiInit(ESP_HandleTypeDef* hEsp);
 bool    ESP_WifiDeInit(ESP_HandleTypeDef* hEsp);
 bool    ESP_WifiMode(ESP_HandleTypeDef* hEsp, ESP_WifiModeTypeDef WifiMode, bool StationAutoConnect);
-bool    ESP_WifiConnectTo(ESP_HandleTypeDef* hEsp, const char* pSSID, const char* pPass, const char* pMac, uint16_t Timeout, ESP_WifiErrTypeDef *peError);
+bool    ESP_WifiStationConnect(ESP_HandleTypeDef* hEsp, const char* pSSID, const char* pPass, const char* pMac, uint16_t Timeout, ESP_WifiErrTypeDef *peError);
+bool    ESP_WifiStationDisconnect(ESP_HandleTypeDef* hEsp);
+bool    ESP_WifiSoftApStart(ESP_HandleTypeDef* hEsp, const char* pSsid, const char* pPass, uint8_t channel, ESP_WifiEncTypeDef Enc, int8_t MaxConnection, bool Hide);
+bool    ESP_WifiSoftApDisconnectAll(ESP_HandleTypeDef* hEsp);
+bool    ESP_WifiSoftApDisconnectMac(ESP_HandleTypeDef* hEsp, const char* pMac);
 
 
 #ifdef __cplusplus

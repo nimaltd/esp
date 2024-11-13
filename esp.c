@@ -446,7 +446,9 @@ bool ESP_WifiMode(ESP_HandleTypeDef* hEsp, ESP_WifiModeTypeDef WifiMode, bool St
   * @param  .
   * @retval .
   */
-bool ESP_WifiConnectTo(ESP_HandleTypeDef* hEsp, const char* pSSID, const char* pPass, const char *pMac, uint16_t Timeout, ESP_WifiErrTypeDef *peError)
+bool ESP_WifiStationConnect(ESP_HandleTypeDef* hEsp, const char* pSSID,
+                         const char* pPass, const char *pMac,
+                         uint16_t Timeout, ESP_WifiErrTypeDef *peError)
 {
   bool answer = false;
   char str_at[256];
@@ -490,3 +492,111 @@ bool ESP_WifiConnectTo(ESP_HandleTypeDef* hEsp, const char* pSSID, const char* p
 
   return answer;
 }
+
+/***********************************************************************************************************/
+
+/**
+  * @brief
+  * @param  hEsp: Pointer to the ESP handle.
+  * @param  .
+  * @retval .
+  */
+bool ESP_WifiStationDisconnect(ESP_HandleTypeDef* hEsp)
+{
+  bool answer = false;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+CWQAP\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
+
+  } while (0);
+
+  return answer;
+}
+
+/***********************************************************************************************************/
+
+/**
+  * @brief
+  * @param  hEsp: Pointer to the ESP handle.
+  * @param  .
+  * @retval .
+  */
+bool ESP_WifiSoftApStart(ESP_HandleTypeDef* hEsp,
+                         const char* pSsid, const char* pPass,
+                         uint8_t channel, ESP_WifiEncTypeDef Enc,
+                         int8_t MaxConnection, bool Hide)
+{
+  bool answer = false;
+  do
+  {
+    if (!ATC_Send(&hEsp->hAtc, "AT+CWSA=\"%s\",\"%s\",%d,%d,%d,%d\r\n", ESP_SEND_TIME_MIN, pSsid, pPass, channel, Enc, MaxConnection, Hide))
+    {
+      break;
+    }
+    if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
+
+  } while (0);
+
+  return answer;
+}
+
+/***********************************************************************************************************/
+
+/**
+  * @brief
+  * @param  hEsp: Pointer to the ESP handle.
+  * @param  .
+  * @retval .
+  */
+bool ESP_WifiSoftApDisconnectAll(ESP_HandleTypeDef* hEsp)
+{
+  bool answer = false;
+  do
+  {
+    if (ATC_SendReceive(&hEsp->hAtc, "AT+CWQIF\r\n", ESP_SEND_TIME_MIN, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
+
+  } while (0);
+
+  return answer;
+}
+
+/***********************************************************************************************************/
+
+/**
+  * @brief
+  * @param  hEsp: Pointer to the ESP handle.
+  * @param  .
+  * @retval .
+  */
+bool ESP_WifiSoftApDisconnectMac(ESP_HandleTypeDef* hEsp, const char* pMac)
+{
+  bool answer = false;
+  do
+  {
+    if (!ATC_Send(&hEsp->hAtc, "AT+CWQIF=\"%s\"\r\n", ESP_SEND_TIME_MIN, pMac))
+    {
+      break;
+    }
+    if (ATC_Receive(&hEsp->hAtc, NULL, ESP_RESP_TIME_MIN, 1, esp_ok) != 1)
+    {
+      break;
+    }
+    answer = true;
+
+  } while (0);
+
+  return answer;
+}
+
